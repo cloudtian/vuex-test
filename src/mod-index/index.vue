@@ -1,10 +1,10 @@
 <template>
     <div>
         state:
-        <counter></counter>
+        <count></count>
         <hr>
         mapState:
-        <map-state-counter></map-state-counter>
+        <map-state-count></map-state-count>
         <hr>
         getters/mapGetters:
         <getter-todos></getter-todos>
@@ -12,9 +12,9 @@
 </template>
 
 <script>
-import Counter from '../store/count/count.vue';
-// import store from '../store/count/count.js';
-import MapStateCounter from '../store/count/mapStateCount.vue';
+import Count from '../store/state/count.vue';
+// import store from '../store/state/count.js';
+import MapStateCount from '../store/state/mapStateCount.vue';
 
 import store from '../store/getter/todos.js';
 import GetterTodos from '../store/getter/todos.vue';
@@ -22,8 +22,8 @@ import GetterTodos from '../store/getter/todos.vue';
 export default {
   store,
   components: {
-    Counter,
-    MapStateCounter,
+    Count,
+    MapStateCount,
     GetterTodos
   }
 };
