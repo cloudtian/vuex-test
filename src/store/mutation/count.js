@@ -1,5 +1,6 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
+import {SOME_MUTATION} from './mutation-type';
 
 Vue.use(Vuex);
 
@@ -29,9 +30,24 @@ const store = new Vuex.Store({
 
         decrement (state) {
             state.count--;
-        }
+        },
 
         // Mutation 必须是同步函数
+        
+        /**
+         * mutation需遵守vue的响应规则
+         * 1.最好提前在store中初始化好所有所需属性
+         * 2.当需要在对象上添加新属性时，应该：
+         *  使用Vue.set(obj, 'newProp', 123) 或者
+         *  以新对象替换老对象：
+         *    state.obj = {...state.obj, newProp: 123}
+         */
+
+        // 使用常量代替mutation事件类型
+        [SOME_MUTATION] (state, payload) {
+            // mutate state
+            state.count -= payload.amount;
+        }
     }
 });
 

@@ -6,11 +6,13 @@
         <button @click="decrement">decrement减少</button>
         amount:<input v-model="amount">
         <button @click="incrementPayload({amount: +amount})">追加amount</button>
+        <button @click="dec({amount: +amount})">减少amount</button>
     </div>
     
 </template>
 <script>
 import {mapState, mapMutations} from 'vuex';
+import {SOME_MUTATION} from './mutation-type';
 
 export default {
     data () {
@@ -36,7 +38,9 @@ export default {
         ...mapMutations({
 
             // 将this.add()映射为this.$store.commit('increment')
-            add: 'increment'
+            add: 'increment',
+
+            dec: SOME_MUTATION
         }),
         decrement () {
             this.$store.commit('decrement');
