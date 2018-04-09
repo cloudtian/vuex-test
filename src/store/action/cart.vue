@@ -5,6 +5,7 @@
         <button @click="add">add增加</button>
         amount:<input v-model="amount">
         <button @click="incrementBy({amount: +amount})">追加amount</button>
+        <button @click="incrementAddBy({amount: +amount})">先自加再追加amount</button>
     </div>
 </template>
 
@@ -28,7 +29,9 @@ export default {
             'increment',
 
             // 将this.incrementBy(amount)映射为this.$store.dispatch('increment', amount)
-            'incrementBy'
+            'incrementBy',
+
+            'incrementAddBy'
         ]),
         ...mapActions({
 

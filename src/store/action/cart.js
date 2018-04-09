@@ -88,6 +88,12 @@ const store = new Vuex.Store({
             setTimeout(() => {
                 commit('incrementBy', payload);
             }, 1000);
+        },
+
+        incrementAddBy ({dispatch, commit}, payload) {
+            return dispatch('increment').then(() => {
+                commit('incrementBy', payload);
+            });
         }
 
     }
