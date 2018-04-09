@@ -5,7 +5,7 @@ Vue.use(Vuex);
 
 const moduleA = {
     state: {
-        const: 0
+        count: 0
     },
     mutations: {
         incrememt (state) {
@@ -94,9 +94,68 @@ const store = new Vuex.Store({
                 }
             }
 
+        },
+
+
+        // 在带命名空间的模块内访问全局内容
+        foo: {
+            namespaced: true,
+
+            getters: {
+                // 在这个模块的getter中，getters被局部化了
+                // 可以使用getter的第四个参数来调用rootGetters
+                someGetter (state, getters, rootState, rootGetters) {
+                    getters.someOtherGetter // -> foo/someOtherGetter
+                    rootGetters.someOtherGetter // -> someOtherGetter
+                },
+                someOtherGetter: state => {}
+            },
+
+            actions: {
+                // 在这个模块中，dispatch和commit也被局部化了
+                // 可以接受root属性以访问根dispatch或commit
+                someAction ({dispatch, commit, getters, rootGetters}) {
+                    getters.someGetter // -> foo/someGetter
+                    rootGetters.someGetter // ->someGetter
+
+                    dispatch('someOtherAction') // -> foo/someOtherAction
+                    dispatch('someOtherAction', null, {root: true}) // -> someOtherAction
+
+                    commit('someMutation') // -> foo/someMutation
+                    commit('someMutation', null, {root: true}) // -> someMutation
+                },
+                someOtherAction (ctx, payload) {},
+
+                // 在带命名空间的模块注册全局action
+                someAction: {
+                    root: true,
+                    handler (namespacedContext, payload) {
+                        // -> someAction
+                    }
+                }
+
+            }
+        }
+    },
+
+    actions: {
+        someOtherAction ({dispatch}) {
+            dispatch('someAction');
+
+            // someAction在foo模块中注册的全局action
         }
     }
 });
 
 // store.state.a => moduleA的状态
 // store.state.b => moduleB的状态
+
+
+// 模块动态注册
+// 注册模块 myModule
+store.registerModule('myModule', {});
+// 注册嵌套模块 nested/myModule
+store.registerModule(['nested', 'myModule'], {});
+
+// 动态卸载模块
+store.unregisterModule(moduleName)
